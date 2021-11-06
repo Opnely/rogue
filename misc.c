@@ -18,7 +18,7 @@
 
 /*
  * look:
- *	A quick glance all around the player
+ *	A quick glance all around the player (on the 8 adjacent squares)
  */
 #undef DEBUG
 
@@ -90,27 +90,30 @@ look(bool wakeup)
 			continue;
 	    }
 
-	    if ((tp = pp->p_monst) == NULL)
-		ch = trip_ch(y, x, ch);
-	    else
-		if (on(player, SEEMONST) && on(*tp, ISINVIS))
-		{
-		    if (door_stop && !firstmove)
-			running = FALSE;
-		    continue;
-		}
-		else
-		{
-		    if (wakeup)
-			wake_monster(y, x);
-		    if (see_monst(tp))
-		    {
-			if (on(player, ISHALU))
-			    ch = rnd(26) + 'A';
-			else
-			    ch = tp->t_disguise;
-		    }
-		}
+	    if ((tp = pp->p_monst) == NULL) {
+            ch = trip_ch(y, x, ch);
+        } else {
+            if (on(player, SEEMONST) && on(*tp, ISINVIS)) {
+                if (door_stop && !firstmove) {
+                    running = FALSE;
+                }
+                continue;
+            } else {
+                if (wakeup)
+                    wake_monster(y, x);
+                if (see_monst(tp)) {
+                    if (!tp->t_seen) { // pause the game when an unseen
+                                       // monster appears for the first time
+                        show_win("Suddenly, a monster appears!");
+                        tp->t_seen = true;
+                    }
+                    if (on(player, ISHALU))
+                        ch = rnd(26) + 'A';
+                    else
+                        ch = tp->t_disguise;
+                }
+            }
+        }
 	    if (on(player, ISBLIND) && (y != hero.y || x != hero.x))
 		continue;
 

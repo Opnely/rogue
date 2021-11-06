@@ -384,6 +384,7 @@ union thing {
 	struct room *_t_room;		/* Current room for thing */
 	union thing *_t_pack;		/* What the thing is carrying */
         int _t_reserved;
+    bool _t_seen;           /* tracks whether or not the monster was seen */
     } _t;
     struct {
 	union thing *_l_next, *_l_prev;	/* Next pointer in link */
@@ -420,6 +421,7 @@ typedef union thing THING;
 #define t_pack		_t._t_pack
 #define t_room		_t._t_room
 #define t_reserved      _t._t_reserved
+#define t_seen      _t._t_seen
 #define o_type		_o._o_type
 #define o_pos		_o._o_pos
 #define o_text		_o._o_text
@@ -751,3 +753,4 @@ extern char     *wood[];
 extern int      cNWOOD;
 extern char     *metal[];
 extern int      cNMETAL;
+

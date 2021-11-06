@@ -393,20 +393,20 @@ enter_room(coord *cp)
 			addch(ch);
 		    else
 			move(y, x + 1);
-		else
-		{
+		else {
 		    tp->t_oldch = ch;
-		    if (!see_monst(tp))
-			if (on(player, SEEMONST))
-			{
-			    standout();
-			    addch(tp->t_disguise);
-			    standend();
-			}
-			else
-			    addch(ch);
-		    else
-			addch(tp->t_disguise);
+		    if (!see_monst(tp)) 
+                if (on(player, SEEMONST)) {
+                    standout();
+                    addch(tp->t_disguise);
+                    standend();
+                } else {
+                    addch(ch);
+                }
+		    else {
+                addch(tp->t_disguise);
+                tp->t_seen = true;
+            }
 		}
 	    }
 	}

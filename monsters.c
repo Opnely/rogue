@@ -88,6 +88,7 @@ new_monster(THING *tp, char type, coord *cp)
 	runto(cp);
     if (type == 'X')
 	tp->t_disguise = rnd_thing();
+    tp->t_seen = false;
 }
 
 /*
